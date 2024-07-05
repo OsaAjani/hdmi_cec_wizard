@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hdmi_cec_wizard"
+version = "0.0.1"
+authors = [
+  { name="OsaAjani", email="osaajani@purelymail.com" },
+]
+
+description = "A package aiming to offer an easy programmable interface for the cec-ctl tool from v4l-utils"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+]
+
+[project.urls]
+Homepage = "https://github.com/osaajani/hdmi_cec_wizard"
+Issues = "https://github.com/osaajani/hdmi_cec_wizard/issues"
+
