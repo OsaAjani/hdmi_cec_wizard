@@ -196,18 +196,24 @@ class LocalCECDevice (CECDevice):
         return self.run_cec_ctl(['--to', to.logical_address, '--custom-command', cmd])
     
 
-    def send_button_press(self, to: CECDevice, button: CECButton) -> CompletedProcess:
+    def send_button_press(self, to: CECDevice, button: CECButton, auto_release = True) -> CompletedProcess:
         """
             Send a CEC command emulating a user pressing a button to the specified device
 
             Some device will always consider a button press to be a single press, while other might consider
-            it to be a button hold (most notably volume up and down) you might then need to follow this with 
-            a send_button_release call
+            it to be a button hold (most notably volume up and down).
+            
+            Trying to harmonize those behaviors, this command will automatically fire a button release message
+            after the button press message. If you dont want that, set auto_release to False.
 
             :param to: The CECDevice to send the button press to
             :param button: The button to press
+            :param auto_release: Should we automatically fire a button release command after press. Defautl to True
         """
-        return self.run_cec_ctl(['--to', to.logical_address, '--user-control-pressed', 'ui-cmd={}'.format(button.value['str'])])
+        result = self.run_cec_ctl(['--to', to.logical_address, '--user-control-pressed', 'ui-cmd={}'.format(button.value['str'])])
+        if auto_release:
+            self.send_button_release(to=to)
+        return result
 
 
     def send_button_release(self, to: CECDevice) -> CompletedProcess:
@@ -226,7 +232,6 @@ class LocalCECDevice (CECDevice):
             :param to: Target CECDevice
         """
         self.send_button_press(to=to, button=CECButton.VOLUME_UP)
-        self.send_button_release(to=to)
         return
     
 
@@ -237,7 +242,6 @@ class LocalCECDevice (CECDevice):
             :param to: Target CECDevice
         """
         self.send_button_press(to=to, button=CECButton.VOLUME_DOWN)
-        self.send_button_release(to=to)
         return
     
 

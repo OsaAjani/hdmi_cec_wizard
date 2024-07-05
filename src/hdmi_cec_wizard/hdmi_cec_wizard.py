@@ -151,7 +151,9 @@ class HDMICECWizard ():
 
             :raise: This method will raise exception if any step fail
         """
-        self.cec_handle = self.autodetect_cec_handle()
+        if not self.cec_handle :
+            self.cec_handle = self.autodetect_cec_handle()
+        
         self.init_cec(device_type=device_type, osd_name=osd_name)
         self.connected_devices = self.list_connected_devices()
         self.main_screen = self.autodetect_main_screen()
