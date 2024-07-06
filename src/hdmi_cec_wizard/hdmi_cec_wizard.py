@@ -3,10 +3,10 @@ from subprocess import CompletedProcess
 import re
 import shlex
 import glob
-from cec_device import CECDevice, LocalCECDevice, DeviceTypes
+from .cec_device import CECDevice, LocalCECDevice, DeviceTypes
 import shutil
 import signal
-from exceptions import FollowerStoppedException
+from .exceptions import FollowerStoppedException
 
 class HDMICECWizard ():
     """
