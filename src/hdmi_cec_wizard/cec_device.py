@@ -3,7 +3,7 @@ import subprocess
 from subprocess import CompletedProcess
 import shlex
 import re
-from exceptions import *
+from .exceptions import *
 
 
 class CECButton(Enum):
