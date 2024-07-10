@@ -244,7 +244,7 @@ class HDMICECWizard ():
         # Init our cec device
         command = ['-d', self.cec_handle, device_type.value['param']]
         if osd_name :
-            if len(osd_name > 14) :
+            if len(osd_name) > 14 :
                 raise Exception('OSD Name cannot exceed 14 characters.')
             command = command + ['--osd-name', osd_name]
 
