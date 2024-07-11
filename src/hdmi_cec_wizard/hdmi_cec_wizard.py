@@ -81,7 +81,7 @@ class HDMICECWizard ():
         return result
     
 
-    def __parse_device_infos(self, raw: str, is_topo: False) -> dict : 
+    def __parse_device_infos(self, raw: str, is_topo: bool = False) -> dict : 
         """
             Try to extract device infos from a cec-ctl driver/topology string
 
