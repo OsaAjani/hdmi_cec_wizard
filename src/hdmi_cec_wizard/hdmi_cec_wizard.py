@@ -7,6 +7,7 @@ from .cec_device import CECDevice, LocalCECDevice, DeviceTypes
 import shutil
 import signal
 from .exceptions import FollowerStoppedException
+import time
 
 class HDMICECWizard ():
     """
@@ -133,7 +134,7 @@ class HDMICECWizard ():
         return cec_params
     
 
-    def autoconfig(self, device_type: DeviceTypes = None, osd_name: str = None) -> None:
+    def autoconfig(self, device_type: DeviceTypes = None, osd_name: str = None, wait: float = 3) -> None:
         """
             This method will autoconfig the HDMI-CEC Wizard, trying to automatically :
                 - Detect the /dev/cecX to use and set it
@@ -143,13 +144,15 @@ class HDMICECWizard ():
 
             :param device_type: The device type to configure our CEC device as. Must be one of DeviceTypes or None to default to Playback
             :param osd_name: The OSD Name to use for our device (max 14 chars), if None cec-ctl will use device type instead
-
+            :param wait: Time in seconds to wait between init and list connected devices. This time is needed by some HDMI device
+                to detect us on the network and start talking
             :raise: This method will raise exception if any step fail
         """
         if not self.cec_handle :
             self.cec_handle = self.autodetect_cec_handle()
         
         self.init_cec(device_type=device_type, osd_name=osd_name)
+        time.sleep(wait)
         self.connected_devices = self.list_connected_devices()
         self.main_screen = self.autodetect_main_screen()
     
