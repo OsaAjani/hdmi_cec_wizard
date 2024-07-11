@@ -61,12 +61,8 @@ class HDMICECWizard ():
         """
         if signum == signal.SIGCHLD:
             # Get the process result, this should be immediate as the process is supposed to be stopped
-            process_result = self.follower_handle.wait() 
-
-            # Empty the follower handle
             self.follower_handle = None 
 
-            raise FollowerStoppedException("cec-follower has stopped", process_result)
 
 
     def __run_cec_ctl_cmd(self, command_args: list) -> CompletedProcess:
@@ -274,7 +270,7 @@ class HDMICECWizard ():
             :raise: Raise exception if cannot list connected devices
             :return: Return a list of all the connected devices accessible through or local device
         """
-        result = self.local_device.run_cec_ctl(['--show-topology'], skip_info=False)
+        result = self.local_device.run_cec_ctl(['--show-topology'], skip_info=True)
         result.check_returncode()
 
         raws = []
@@ -293,7 +289,7 @@ class HDMICECWizard ():
 
         connected_devices = []
         for raw in raws:
-            device_params = self.__parse_device_infos(raw, is_topo=True)
+            device_params = self.__parse_device_infos('\n'.join(raw), is_topo=True)
             connected_devices.append(CECDevice(**device_params))
 
         return connected_devices
