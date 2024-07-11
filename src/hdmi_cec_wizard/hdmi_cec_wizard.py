@@ -215,7 +215,7 @@ class HDMICECWizard ():
         """
         if not self.follower_handle :
             bin_path = shutil.which('cec-follower')
-            self.follower_handle = subprocess.Popen(shlex.join(bin_path, '-d', self.cec_handle), shell=True, 
+            self.follower_handle = subprocess.Popen(shlex.join([bin_path, '-d', self.cec_handle]), shell=True, 
                                                     stderr=subprocess.PIPE, stdout=subprocess.PIPE)
             
             # In UNIX when a child process stop, the parent receive a SIGCHLD signal
