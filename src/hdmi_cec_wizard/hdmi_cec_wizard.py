@@ -127,9 +127,8 @@ class HDMICECWizard ():
         cec_params['vendor_id'] = match.group(1)
 
         match = re.search(self.REGEX_POWER_STATUS, raw)
-        if not match :
-            raise Exception('Cannot find the Power Status')
-        cec_params['power_status'] = match.group(1)
+        if match :
+            cec_params['power_status'] = match.group(1)
 
         match = re.search(self.REGEX_OSD_NAME, raw)
         if match:

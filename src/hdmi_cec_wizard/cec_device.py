@@ -120,10 +120,10 @@ class CECDevice ():
         :logical_address: Logical address of the device, this is the address we will use to send command
         :device_type: The type of device, one of DeviceTypes.
         :vendor_id: The ID of the vendor as assigned by "HDMI Licensing, LLC", some vendor might fake it but its still a usefull info
-        :power_status: Is the device power on or off, one of (On, Off, Standby). Standby is a low power mode, powered but not actively performing tasks.
+        :power_status: Is the device power on or off, one of (On, Off, Standby). Standby is a low power mode, powered but not actively performing tasks. Might be None if unknown.
         :osd_name: The human readable name of the device. Might be None.
     """
-    def __init__(self, cec_version: str, physical_address: str , logical_address: str, device_type: DeviceTypes, vendor_id: str, power_status: str, osd_name: str = None) -> None:
+    def __init__(self, cec_version: str, physical_address: str , logical_address: str, device_type: DeviceTypes, vendor_id: str, power_status: str = None, osd_name: str = None) -> None:
         self.cec_version = cec_version
         self.physical_address = physical_address
         self.logical_address = logical_address
