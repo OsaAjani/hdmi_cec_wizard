@@ -87,8 +87,8 @@ class CECButton(Enum):
     SELECT_AV_INPUT_FUNCTION = {"str": "select-av-input-function", "code": "0x69"}
     SELECT_AUDIO_INPUT_FUNCTION = {"str": "select-audio-input-function", "code": "0x6a"}
     POWER_TOGGLE_FUNCTION = {"str": "power-toggle-function", "code": "0x6b"}
-    POWER_OFF_FUNCTION = {"str": "power-off-function", "code": "0x6c"}
-    POWER_ON_FUNCTION = {"str": "power-on-function", "code": "0x6d"}
+    POWER_OFF = {"str": "power-off-function", "code": "0x6c"}
+    POWER_ON = {"str": "power-on-function", "code": "0x6d"}
     F1_BLUE = {"str": "f1-blue", "code": "0x71"}
     F2_RED = {"str": "f2-red", "code": "0x72"}
     F3_GREEN = {"str": "f3-green", "code": "0x73"}
