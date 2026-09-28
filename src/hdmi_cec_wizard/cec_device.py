@@ -3,6 +3,7 @@ import subprocess
 from subprocess import CompletedProcess
 import shlex
 import re
+import time
 from .exceptions import *
 
 
@@ -196,7 +197,7 @@ class LocalCECDevice (CECDevice):
         return self.run_cec_ctl(['--to', to.logical_address, '--custom-command', cmd])
     
 
-    def send_button_press(self, to: CECDevice, button: CECButton, auto_release = True) -> CompletedProcess:
+    def send_button_press(self, to: CECDevice, button: CECButton, auto_release = True, release_delay: float = 0.1) -> CompletedProcess:
         """
             Send a CEC command emulating a user pressing a button to the specified device
 
@@ -209,9 +210,11 @@ class LocalCECDevice (CECDevice):
             :param to: The CECDevice to send the button press to
             :param button: The button to press
             :param auto_release: Should we automatically fire a button release command after press. Defautl to True
+            :param release_delay: If auto_release is True, how long to wait before sending the button release command. Default to 0.1 seconds
         """
         result = self.run_cec_ctl(['--to', to.logical_address, '--user-control-pressed', 'ui-cmd={}'.format(button.value['str'])])
         if auto_release:
+            time.sleep(release_delay)
             self.send_button_release(to=to)
         return result
 
