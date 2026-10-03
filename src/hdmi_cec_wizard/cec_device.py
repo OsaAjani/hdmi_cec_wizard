@@ -289,9 +289,24 @@ class LocalCECDevice (CECDevice):
             :param to: The CECDevice to power on
         """
         return self.run_cec_ctl(['--to', to.logical_address, '--image-view-on'])
+
+
+    def send_set_stream_path(self, to: CECDevice) -> CompletedProcess:
+        """
+            Send a CEC signal to set the stream path to the target device
+            this is technically the 'set stream path' command.
+
+            HDMI CEC say that the TV should switch to the new source on receiving active source command, but some device will not do it, 
+            some will require the set stream path command, and some will ignore it completely.
+            
+            Therefore, this command is provided to try to force the TV to switch to the new source, but it might not work on all device.
+
+            :param to: The CECDevice to set the stream path to
+        """
+        return self.run_cec_ctl(['--to', to.logical_address, '--set-stream-path', 'phys-addr={}'.format(self.physical_address)])
+        
     
-    
-    def broadcast_active_source(self) -> CompletedProcess:
+    def broadcast_active_source(self, physical_address = None) -> CompletedProcess:
         """
             Broadcast a CEC signal to indicate this device started transmitting a stream
 
@@ -300,21 +315,26 @@ class LocalCECDevice (CECDevice):
 
             I you want a more reliable way to select video input, you should consider using send_button_press with 
             input select button
+
+            :param physical_address: The physical address to broadcast as active source. If None, will use the device physical address
         """
-        return self.run_cec_ctl(['--active-source', 'phys-addr={}'.format(self.physical_address)])
+        if physical_address is None:
+            physical_address = self.physical_address
+        return self.run_cec_ctl(['--active-source', 'phys-addr={}'.format(physical_address)])
     
 
-    def broadcast_inactive_source(self) -> CompletedProcess:
+    def broadcast_inactive_source(self, physical_address = None) -> CompletedProcess:
         """
             Broadcast a CEC signal to indicate this device stopped transmitting a stream
 
             Behavior might vary, some device will automatically fallback to other source as image input
             some will simply ignore it
 
-            I you want a more reliable way to select video input, you should consider using send_button_press with 
-            input select button
+            :param physical_address: The physical address to broadcast as inactive source. If None, will use the device physical address
         """
-        return self.run_cec_ctl(['--inactive-source', 'phys-addr={}'.format(self.physical_address)])
+        if physical_address is None:
+            physical_address = self.physical_address
+        return self.run_cec_ctl(['--inactive-source', 'phys-addr={}'.format(physical_address)])
     
 
     def broadcast_request_active_source(self) -> list:
