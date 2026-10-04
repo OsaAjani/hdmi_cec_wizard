@@ -258,7 +258,7 @@ class LocalCECDevice (CECDevice):
         result = self.run_cec_ctl(['--to', to.logical_address, '--give-device-power-status'])
         result.check_returncode()
 
-        match = re.match(self.REGEX_RESPONSE_PWR_STATE, result.stdout)
+        match = re.search(self.REGEX_RESPONSE_PWR_STATE, result.stdout)
         if not match:
             raise Exception('Cannot find power status in ask_power_status response')
         
@@ -349,7 +349,7 @@ class LocalCECDevice (CECDevice):
         """
         result = self.run_cec_ctl(['--request-active-source'])
         result.check_returncode()
-        if re.match(self.REGEX_RESPONSE_TIMEOUT, result.stdout):
+        if re.search(self.REGEX_RESPONSE_TIMEOUT, result.stdout):
             raise ResponseTimeoutException('Timeout when requesting active source. Either no active source, or device loosely follow CEC standard.')
         
         active_sources = []
